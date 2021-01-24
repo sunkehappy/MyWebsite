@@ -1,0 +1,5 @@
+\.jekyll-cache/
+\.sass-cache/
+ECMAScript/node_modules/
+.git/
+.vscode/

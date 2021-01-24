@@ -1,0 +1,13 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "My New Hugo Site"
+theme = "hugo-notepadium"
+
+
+
+# enable JS highlight
+[params.syntax]
+use = "hljs"  # 1. prismjs 2. hljs 3. none
+theme = "dracula"
+darkTheme = "xcode-dark"  # apply this theme in dark mode
+

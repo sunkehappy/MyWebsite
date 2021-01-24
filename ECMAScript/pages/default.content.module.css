@@ -1,0 +1,15 @@
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  padding: 40px;
+  overflow-y: scroll;
+}
+
+.container>.custom_h1:not(:first-child) {
+  margin-top: 30px;
+}
+
+.container>.custom_h2:not(:first-child) {
+  margin-top: 30px;
+}

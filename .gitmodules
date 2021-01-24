@@ -1,0 +1,6 @@
+[submodule "myblog/themes/hugo-notepadium"]
+	path = myblog/themes/hugo-notepadium
+	url = https://github.com/cntrump/hugo-notepadium.git
+[submodule "myblog/themes/anatole"]
+	path = myblog/themes/anatole
+	url = https://github.com/lxndrblz/anatole.git
