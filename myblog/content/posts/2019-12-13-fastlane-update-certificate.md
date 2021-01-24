@@ -13,6 +13,8 @@ Your certificate 'MF4PBSF6MZ.cer' is not valid, please check end date and renew 
 
 我这里的CI是通过fastlane来管理的，包括里面的证书。说实话fastlane的match也不够智能，还是需要时不时的手工去操作，当然这个也可以说是苹果的锅。但是不得不说很烦人。
 
+<!--more-->
+
 这次我整理了一下当fastlane里面的证书过期的话，如何更新：
 * 手动到[苹果开发者中心]去更新证书
 * 本地导出证书公钥和私钥

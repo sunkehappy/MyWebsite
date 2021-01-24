@@ -10,6 +10,7 @@ tags:           [Swift]
 ### 探索
 
 既然想阅读这么多代码，我最开始想的是先看看网上有没有什么现成的攻略可以看，这样结合起来，效率会高很多。因为我之前也尝试过阅读Linux源代码，然后那个跳转都没搞定，太折腾。
+<!--more-->
 
 然后结果是没找到系统的，只是找到了一些零散的，比如关于Bool的，关于Int的，关于Codable的，等等。不过还是找到了一个很有用的文章：[如何阅读 Swift 标准库中的源码](http://swift.gg/2016/12/30/how-to-read-the-swift-standard-libray-source/)。啊哈，竟然可以用Xcode来阅读Swift的代码，这的确不能更爽了。因为我最开始的时候确实直接在[https://github.com/apple/swift](https://github.com/apple/swift)里面看的，这确实是比较难受的。
 

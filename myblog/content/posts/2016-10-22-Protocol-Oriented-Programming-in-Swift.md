@@ -9,6 +9,8 @@ tags:		[WWDC, Swift, 翻译]
 
 在WWDC2015中苹果Swift标准库老大[Dave Abrahams](https://en.wikipedia.org/wiki/David_Abrahams_/(computer_programmer/))，在C++/Boost方面很出名的人，说Swift是一种[面向协议的编程语言](https://developer.apple.com/videos/wwdc/2015/?id=408)，并且展示了如何用协议来优化你的代码。
 
+<!--more-->
+
 面向协议编程是一个OOP范式，相对于类，它更倾向于使用协议(就是Swift语言中的接口)。
 
 ### 类很棒吗？

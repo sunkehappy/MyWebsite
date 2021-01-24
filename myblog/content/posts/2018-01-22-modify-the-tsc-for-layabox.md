@@ -10,6 +10,7 @@ tags:           [游戏开发, Laya, LayaBox, LayaAirIDE]
 ![LayaBox TSC 版本不一致](/assets/images/layaBoxTscVersionWarning.png)
 
 今天我在写枚举的时候发现，明明官网上面可以写字符串的枚举，我本地会出现编译错误，我就想到了这个版本的差别。然后就修改了LayaAirIDE中的TSC版本，然后就可以成功编译了。
+<!--more-->
 
 ### 怎么改
 

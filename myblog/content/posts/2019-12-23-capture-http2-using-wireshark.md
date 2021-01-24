@@ -9,6 +9,8 @@ tags:           [wireshark, http2]
 
 纸上得来终觉浅，绝知此事要躬行。只看别人写的文章，哪怕是看的[HTTP 2 RFC](https://httpwg.org/specs/rfc7540.html)，也不如亲自动手折腾一下。第一步，用Wireshark来抓包，[下载地址](https://www.wireshark.org/download.html)。下载安装好之后，默认情况下Wireshark是无法解密HTTP/2的请求的，原因是目前的HTTP/2都是基于TLS的安全协议，Wireshark是无法解密的。
 
+<!--more-->
+
 ![Wireshark without decryption](/assets/images/wireshark-ssl.jpg)
 
 所以第一步就是要想办法告诉Wireshark如何解密。想要解密，就需要有秘钥(TLS里面既有对称加密又有非对称加密)，有两种方法。

@@ -8,6 +8,8 @@ draft:		true
 
 今天修复了一个上传文件的bug，顺带复习了一下GCD，搞明白了barrier和sync的用法，然后也顺带看了下Array的线程安全。先亮结论：不安全。举例如下：
 
+<!--more-->
+
 ```
 import UIKit
 
