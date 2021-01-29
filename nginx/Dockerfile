@@ -8,7 +8,14 @@ RUN rm /etc/nginx/conf.d/*
 # *.conf files in conf.d/ dir get included in main config
 COPY ./default.conf /etc/nginx/conf.d/
 
+# Copy the SSL related files.
+COPY ./ssl-certificate/ /etc/ssl/cert/
+
+# Copy the blog files.
+COPY ./public/ /usr/share/nginx/html/
+
 # Expose the listening port
+EXPOSE 443
 EXPOSE 80
 
 # Launch NGINX

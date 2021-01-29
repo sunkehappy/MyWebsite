@@ -3,7 +3,8 @@ title = "祝你好运的小站"
 theme = "hugo-notepadium"
 
 
-languageCode = "zh-cn"
+defaultContentLanguage = "zh"
+languageCode = "zh"
 hasCJKLanguage = true
 
 enableRobotsTXT = true
@@ -53,15 +54,11 @@ showTags = true             # /tags/
 # custom navigation items
 
 [[params.nav.custom]]
-title = "About"
+title = "关于"
 url = "/about"
-
-[[params.nav.custom]]
-title = "Hugo"
-url = "https://gohugo.io/"
 
 # for chinese
 [params.beian]
-  icp = ""     # example: 粤ICP备20056596号-1
+  icp = "沪ICP备2021002982号"     # example: 粤ICP备20056596号-1
   gongan = ""  # example: 粤公网安备 44030502005645号
   code = ""    # example: 44030502005645
