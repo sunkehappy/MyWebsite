@@ -18,7 +18,7 @@ const FeatureTable = {
 };
 
 export async function getStaticProps({params}) {
-  console.log(`feature is ${JSON.stringify(params)}`);
+  // console.log(`feature is ${JSON.stringify(params)}`);
   return {
     props: {
       feature: params.feature,
@@ -32,7 +32,7 @@ export function getStaticPaths() {
     params: { feature: item}
   }));
 
-  console.log(`getStaticPaths paths: ${JSON.stringify(pathParams)}`);
+  // console.log(`getStaticPaths paths: ${JSON.stringify(pathParams)}`);
 
   return {
     paths: pathParams,
@@ -44,6 +44,7 @@ export default function Feature({feature}) {
   return (
     <Main
       featureComponent={FeatureTable[feature]}
+      defaultOpenKeys={["es10"]}
     />
   );
 }

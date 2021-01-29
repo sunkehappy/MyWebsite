@@ -15,22 +15,25 @@ import {
 const { SubMenu } = Menu;
 
 export default class LeftMenu extends Component {
-  // static propTypes = {
-  //   prop: PropTypes
-  // }
+  static propTypes = {
+    defaultOpenKeys: PropTypes.array,
+  }
 
   onMenuClick = (key) => {
-    console.log(key);
-  };
+    // console.log(key);
+  }
 
   render() {
+    // console.log(`defaultOpenKeys is ${JSON.stringify(this.props.defaultOpenKeys)}`);
+
     return (
       <Menu
         className={MenuStyles.left_menu}
         mode="inline"
         onClick={this.onMenuClick}
+        defaultOpenKeys={this.props.defaultOpenKeys}
       >
-        <SubMenu title="ES 7">
+        <SubMenu title="ES 7" key="es7">
           {
             Object.values(ES7Feature).map(item => 
               <Menu.Item key={item.key}>
@@ -41,7 +44,7 @@ export default class LeftMenu extends Component {
             )
           }
         </SubMenu>
-        <SubMenu title="ES 8">
+        <SubMenu title="ES 8" key="es8">
           {
             Object.values(ES8Feature).map(item => 
               <Menu.Item key={item.key}>
@@ -52,7 +55,7 @@ export default class LeftMenu extends Component {
             )
           }
         </SubMenu>
-        <SubMenu title="ES 9">
+        <SubMenu title="ES 9" key="es9">
           {
             Object.values(ES9Feature).map(item => 
               <Menu.Item key={item.key}>
@@ -63,7 +66,7 @@ export default class LeftMenu extends Component {
             )
           }
         </SubMenu>
-        <SubMenu title="ES 10">
+        <SubMenu title="ES 10" key="es10">
           {
             Object.values(ES10Feature).map(item => 
               <Menu.Item key={item.key}>
@@ -74,7 +77,7 @@ export default class LeftMenu extends Component {
             )
           }
         </SubMenu>
-        <SubMenu title="ES 11">
+        <SubMenu title="ES 11" key="es11">
           {
             Object.values(ES11Feature).map(item => 
               <Menu.Item key={item.key}>

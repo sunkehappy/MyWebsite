@@ -1,26 +1,29 @@
-import React, { Component } from 'react'
-import Footer from './footer';
-import Header from './header';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
+import Header from './header';
+import Footer from './footer';
 import LeftMenu from './left-menu';
+
 import MainStyles from './main.module.css';
 
 export default class Main extends Component {
-  constructor() {
-    super();
-
+  static propTypes = {
+    defaultOpenKeys: PropTypes.array,
+    featureComponent: PropTypes.element,
   }
 
   render() {
     const {
-      featureComponent
+      featureComponent,
+      defaultOpenKeys,
     } = this.props;
 
     return (
       <div className={MainStyles.container}>
         <Header />
         <div className={MainStyles.subContainer}>
-          <LeftMenu />
+          <LeftMenu defaultOpenKeys={defaultOpenKeys} />
           {featureComponent}
         </div>
         <Footer />
