@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 24px;
+}
+
+.link {
+  font-size: 17px;
+}

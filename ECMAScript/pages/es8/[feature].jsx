@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Main from '../main';
+import Main from '../../components/main';
 import {ES8Feature} from '../../utils/feature-dic';
 import AsyncAwait from './features/async-await';
 import StringPrototypePadStartEnd from './features/string-prototpye-pad-start-end';

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Footer from './footer';
+import Header from './header';
 
 import LeftMenu from './left-menu';
 import MainStyles from './main.module.css';
@@ -16,8 +18,12 @@ export default class Main extends Component {
 
     return (
       <div className={MainStyles.container}>
-        <LeftMenu />
-        {featureComponent}
+        <Header />
+        <div className={MainStyles.subContainer}>
+          <LeftMenu />
+          {featureComponent}
+        </div>
+        <Footer />
       </div>
     )
   }

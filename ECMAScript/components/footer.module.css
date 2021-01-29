@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 20px 24px;
+  font-size: 17px;
+}
+
+.link {
+  margin-left: 5px;
+}

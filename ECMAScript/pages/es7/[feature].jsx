@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Main from '../main';
+import Main from '../../components/main';
 import {ES7Feature} from '../../utils/feature-dic';
 import Includes from './features/includes';
 import Pow from './features/pow';

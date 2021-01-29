@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import DefaultContentStyles from './default.content.module.css';
+import DefaultContentStyles from './default-content.module.css';
 
 export default class DefaultContent extends Component {
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Main from '../main';
+import Main from '../../components/main';
 import {ES10Feature} from '../../utils/feature-dic';
 import ArrayPrototypeFlat from './features/array-prototy-flat';
 import ArrayPrototypeFlatMap from './features/array-prototy-flat-map';

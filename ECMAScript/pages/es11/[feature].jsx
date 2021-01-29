@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Main from '../main';
+import Main from '../../components/main';
 import {ES11Feature} from '../../utils/feature-dic';
 import DynamicImport from './features/dynamic-import';
 import ImportMeta from './features/import-meta';

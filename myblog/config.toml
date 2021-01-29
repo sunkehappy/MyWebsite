@@ -56,6 +56,9 @@ showTags = true             # /tags/
 [[params.nav.custom]]
 title = "关于"
 url = "/about"
+[[params.nav.custom]]
+title = "ES系列"
+url = "https://ecmascript.calvinhappy.com/"
 
 # for chinese
 [params.beian]

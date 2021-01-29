@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import DefaultContent from './default-content';
+import DefaultContent from '../components/default-content';
 
-import Main from './main';
+import Main from '../components/main';
 
 export default class Feature extends Component {
   render() {

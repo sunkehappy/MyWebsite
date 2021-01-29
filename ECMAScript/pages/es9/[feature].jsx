@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Main from '../main';
+import Main from '../../components/main';
 import {ES9Feature} from '../../utils/feature-dic';
 import AsyncGeneratorAndIterator from './features/async-generator-iterator';
 import ObjectSpreadAndRest from './features/object-spread-rest';

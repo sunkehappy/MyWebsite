@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Highlight from "highlight.js";
 import javascript from "highlight.js/lib/languages/javascript";
 
-import DefaultContentStyles from "../../default.content.module.css";
+import DefaultContentStyles from "../../../components/default-content.module.css";
 import { Button } from "antd";
 
 Highlight.registerLanguage("javascript", javascript);
