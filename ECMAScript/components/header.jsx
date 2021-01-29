@@ -8,7 +8,7 @@ export default class Header extends Component {
       <div className={Styles.container}>
         <a className={Styles.link} href="/">主页</a>
         <div className="rightcontainer">
-          <a className={Styles.link} href="https://blog.calvinhappy.com/">我的博客</a>
+          <a className={Styles.link} href="https://blog.calvinhappy.com/" target="__blank">我的博客</a>
         </div>
       </div>
     )
