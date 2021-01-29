@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Head from 'next/head';
 
 import Header from './header';
 import Footer from './footer';
@@ -17,10 +18,14 @@ export default class Main extends Component {
     const {
       featureComponent,
       defaultOpenKeys,
+      title,
     } = this.props;
 
     return (
       <div className={MainStyles.container}>
+        <Head>
+          <title>{title}</title>
+        </Head>
         <Header />
         <div className={MainStyles.subContainer}>
           <LeftMenu defaultOpenKeys={defaultOpenKeys} />

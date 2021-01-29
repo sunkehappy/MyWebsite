@@ -45,6 +45,7 @@ export default function Feature({feature}) {
     <Main
       featureComponent={FeatureTable[feature]}
       defaultOpenKeys={["es10"]}
+      title={ES10Feature[feature].name}
     />
   );
 }

@@ -7,6 +7,7 @@ export default class Feature extends Component {
   render() {
     return (
       <Main
+        title="ECMAScript"
         featureComponent={<DefaultContent />}
       />
     )
