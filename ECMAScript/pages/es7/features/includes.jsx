@@ -16,12 +16,14 @@ export default function Includes() {
     <div className={DefaultContentStyles.container}>
       <h1>Array.prototype.includes()</h1>
       <h2 className={DefaultContentStyles.custom_h2}>作用：</h2>
-      <div>查找一个值在不在数组里,若是存在则返回true,不存在返回false.</div>
+      <div>查找一个值在不在数组里，若是存在则返回true，不存在返回false。</div>
       <h2 className={DefaultContentStyles.custom_h2}>实例代码：</h2>
       <pre>
         <code className="js">
 {"let a = [3, 2, 5];\n\
+a include 2: true\n\
 console.log(`a include 2: ${a.includes(2)}`);\n\
+a include 4: false\n\
 console.log(`a include 4: ${a.includes(4)}`);\n\
 "}
         </code>
@@ -44,6 +46,8 @@ console.log(`using includes() a has NaN: ${a.includes(NaN)}`);\n\
       <Button>
         <a href="http://js.jsrun.net/IEIKp/edit" target="__blank">试一试</a>
       </Button>
+      <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes">Array.prototype.includes()</a></div>
     </div>
   );
 }

@@ -30,7 +30,7 @@ console.log(numberNamesObject);\n\
         </code>
       </pre>
       <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
-      <div>直接看文档吧<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries" target="__blank">Object.fromEntries()</a></div>
+      <div><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries" target="__blank">Object.fromEntries()</a></div>
     </div>
   );
 }

@@ -66,6 +66,8 @@ console.log(str.replace(reNamed, \"$<name1>: $<value2> $<name2>: $<value1>\"));\
           试一试
         </a>
       </Button>
+      <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-us/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges">Groups and ranges</a></div>
       <h1 className={DefaultContentStyles.custom_h1}>先行断言(lookahead) 和 后行断言(lookbehind)</h1>
       <h2 className={DefaultContentStyles.custom_h2}>作用</h2>
       <div>简单来说，就是可以让我们在正则表达式做搜索的时候，指定在xx正则条件下，去做yy正则的匹配。说起来比较绕，举个例子，我们有些名字和性别："Zhangsan is male, Lisi is female, Wangwu is male, Zhaoliu is female."。
@@ -105,6 +107,8 @@ console.log(fileNames.match(/[a-zA-Z]+(?= is (?!male))/g));\n\
           试一试
         </a>
       </Button>
+      <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions">Assertions</a></div>
     </div>
   );
 }

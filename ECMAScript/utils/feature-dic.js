@@ -20,7 +20,7 @@ const ES8Feature = {
   },
   trailingCommas: {
     key: "trailingCommas",
-    name: "trailing commas"
+    name: "尾部逗号"
   },
   objectKeysAndValues: {
     key: "objectKeysAndValues",
@@ -35,7 +35,7 @@ const ES9Feature = {
   },
   objectSpreadAndRest: {
     key: "objectSpreadAndRest",
-    name: "对象的扩展和rest运算符",
+    name: "展开运算符和rest运算符",
   },
   promiseFinally: {
     key: "promiseFinally",
@@ -74,7 +74,7 @@ const ES10Feature = {
   },
   optionalCatchBinding: {
     key: "optionalCatchBinding",
-    name: "可选的捕获绑定"
+    name: "可选的异常捕获绑定"
   },
   functionPrototypeToString: {
     key: "functionPrototypeToString",

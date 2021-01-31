@@ -20,7 +20,7 @@ export default function PromiseFinally() {
         增强了之前的导出语法，可以一步导入+聚合+导出。类似export * as MyComponent from './Component.js'
       </div>
       <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
-      <div>直接看文档吧<a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">export</a></div>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">export</a></div>
     </div>
   );
 }

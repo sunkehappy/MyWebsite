@@ -14,7 +14,7 @@ export default function AsyncAwait() {
 
   return (
     <div className={DefaultContentStyles.container}>
-      <h1>Trailing Commas</h1>
+      <h1>尾部逗号</h1>
       <h2 className={DefaultContentStyles.custom_h2}>作用</h2>
       <div>在数组、对象、函数参数等地方最后一个参数后面允许添加“,”。通俗解释：想象一下数组里面的元素，一行一个，最后一个后面是不需要逗号的，但是如果在最后一个元素后面再加一个，就会需要在原来的最后一个元素后面加一个逗号，然后再加一个元素。这在源代码的修改diff的时候，略奇怪，删掉一行增加两行。如果我们允许trailing commas，就可以做到只增加一行。</div>
       <h2 className={DefaultContentStyles.custom_h2}>实例代码：</h2>
@@ -46,7 +46,7 @@ console.log(`b的最后一个元素是：${b[4]}`);\n\
         <a href="http://js.jsrun.net/sDIKp/edit" target="__blank">试一试</a>
       </Button>
       <h2 className={DefaultContentStyles.custom_h2}>备注</h2>
-      <div>可以看到，多一个“,”并不是什么作用都没有，所以也不要乱写，详细的信息可以参考<a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas">Trailing commas</a></div>
+      <div>可以看到，多一个“,”并不是什么作用都没有，所以也不要乱写（因为有的地方多写尾部逗号是会出错的），详细的信息可以参考<a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas">Trailing commas</a></div>
     </div>
   );
 }

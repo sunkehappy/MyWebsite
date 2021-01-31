@@ -33,7 +33,7 @@ console.log(JSON.stringify(nums.flat(Infinity)));\n\
         </code>
       </pre>
       <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
-      <div>直接看文档吧<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="__blank">Array.prototype.flat()</a></div>
+      <div><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="__blank">Array.prototype.flat()</a></div>
     </div>
   );
 }

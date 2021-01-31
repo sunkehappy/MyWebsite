@@ -14,10 +14,10 @@ export default function ObjectSpreadAndRest() {
 
   return (
     <div className={DefaultContentStyles.container}>
-      <h1>对象的扩展和rest运算符</h1>
+      <h1>展开运算符和rest运算符</h1>
       <h2 className={DefaultContentStyles.custom_h2}>作用</h2>
       <div>
-        在ES6中，...和rest运算符只能用到Array上面，ES9里面对这两种运算符进行了增强，他们的效果和在Array中类似。
+        在ES6中，展开运算符只能用到Array上面，ES9里面对这种运算符进行了增强，他们的效果和在Array中类似。
       </div>
       <h2 className={DefaultContentStyles.custom_h2}>实例代码：</h2>
       <pre>
@@ -38,6 +38,9 @@ console.log(e);\n\
       <Button>
         <a href="http://js.jsrun.net/hCIKp/edit" target="__blank">试一试</a>
       </Button>
+      <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Operators/Spread_syntax">Spread syntax (...)</a></div>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Functions/rest_parameters">Rest parameters</a></div>
     </div>
   );
 }

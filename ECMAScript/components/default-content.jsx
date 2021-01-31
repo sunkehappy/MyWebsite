@@ -16,7 +16,7 @@ export default class DefaultContent extends Component {
         </div>
         <div></div>
         <h2 className={DefaultContentStyles.custom_h2}>备注</h2>
-        我已经尽力给每个特性都提供可运行的参考代码，代码是托管到<a href="http://js.jsrun.net/" target="__blank">http://js.jsrun.net/</a>上面的，但是有些最新的特性，上面是不支持的，简单一点的话，大家可以打开Chrome浏览器，然后在命令行里面运行，虽然有些不太方便，不过用来学习足够了。如果想要在项目中使用最新的特性，就需要<a href="https://babeljs.io/" target="__blank">Babel</a>来转义成现在的浏览器都支持的JavaScript代码，在这里就不详细介绍了。另外ES6里面的内容特别多，而且已经有很成熟的博客介绍了，比如阮一峰的<a href="https://es6.ruanyifeng.com/" target="__blank">ES6 入门教程</a>，我这里就不重复写了。
+        我已经尽力给每个特性都提供可运行的参考代码，代码是托管到<a href="http://js.jsrun.net/" target="__blank">http://js.jsrun.net/</a>上面的，但是有些最新的特性，上面是不支持的，简单一点的话，大家可以打开Chrome浏览器，然后在命令行里面运行，虽然有些不太方便，不过用来学习足够了。如果想要在项目中使用最新的特性，就需要<a href="https://babeljs.io/" target="__blank">Babel</a>来转义成现在的浏览器都支持的JavaScript代码，在这里就不详细介绍了。另外ES6里面的内容特别多，而且已经有很成熟的博客介绍了，比如阮一峰的<a href="https://es6.ruanyifeng.com/" target="__blank">ES6 入门教程</a>，我这里就不重复写了。另外这里重在介绍，而不在于有多么大而全，想看详细的介绍，我会在每个特性下面附上<a href="https://developer.mozilla.org/en-US" target="__blank">MDN web docs</a>链接。
         <h2 className={DefaultContentStyles.custom_h2}>开始学习</h2>
         这里的ES几，是有规律的，比如ES6就是ES2015，也就是2015年发布的标准，ES7就是ES2016，也就是2016年发布的，以此类推。现在就点击左边的菜单来学习ECMAScript的新特性吧！
       </div>

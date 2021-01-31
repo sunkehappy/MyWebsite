@@ -55,36 +55,6 @@ testAsyncAwaitAndGenerators();\n\
       <Button>
         <a href="http://js.jsrun.net/2nIKp/edit" target="__blank">试一试</a>
       </Button>
-      <h2 className={DefaultContentStyles.custom_h2}>异常捕获</h2>
-      <div>Promise最终会有两种状态：resolved和rejected，如果是resolved上面的写法是没问题的，如果被rejected掉，那我们就需要通过try/catch来捕获这个异常：</div>
-      <pre>
-        <code className="js">
-{"function resolveAfter2Seconds() {\n\
-  return new Promise((resolve, reject) => {\n\
-    setTimeout(() => {\n\
-      reject('rejected，你长得太帅！');\n\
-    }, 2000);\n\
-  });\n\
-}\n\
-\n\
-async function asyncCall() {\n\
-  console.log('calling');\n\
-  try {\n\
-      const result = await resolveAfter2Seconds();\n\
-  } catch(e) {\n\
-      console.log(`出错了：${JSON.stringify(e)}`);\n\
-  }\n\
-  // 会在2秒后输出  出错了：\"rejected，你长得太帅！\"\n\
-  console.log(result);\n\
-}\n\
-\n\
-asyncCall();\n\
-"}
-        </code>
-      </pre>
-      <Button>
-        <a href="http://js.jsrun.net/W5IKp/edit" target="__blank">试一试</a>
-      </Button>
       <h2 className={DefaultContentStyles.custom_h2}>参考：</h2>
       <div>
         <ol>

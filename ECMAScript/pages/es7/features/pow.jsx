@@ -31,6 +31,8 @@ console.log(result); //81\n\
       <Button>
         <a href="http://js.jsrun.net/zsIKp/edit" target="__blank">试一试</a>
       </Button>
+      <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation">Exponentiation (**)</a></div>
     </div>
   );
 }

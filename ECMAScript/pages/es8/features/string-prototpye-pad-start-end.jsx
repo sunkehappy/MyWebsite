@@ -44,6 +44,9 @@ console.log(\"123456\".padStart(12, \"9876\"));\n\
         <a href="http://js.jsrun.net/f5IKp/edit" target="__blank">试一试</a>
       </Button>
       <h2 className={DefaultContentStyles.custom_h2}>padEnd与padStart类似，参数也类似，就不再赘述</h2>
+      <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/String/padStart">String.prototype.padStart()</a></div>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd">String.prototype.padEnd()</a></div>
     </div>
   );
 }

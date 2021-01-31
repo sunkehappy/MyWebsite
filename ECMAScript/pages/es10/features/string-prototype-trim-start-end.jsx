@@ -39,8 +39,8 @@ console.log(greeting.trimStart());\n\
       <h2 className={DefaultContentStyles.custom_h2}>作用</h2>
       <div>类似于trimStart</div>
       <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
-      <div>直接看文档吧<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart" target="__blank">String.prototype.trimStart()</a></div>
-      <div>直接看文档吧<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd" target="__blank">String.prototype.trimEnd()</a></div>
+      <div><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart" target="__blank">String.prototype.trimStart()</a></div>
+      <div><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd" target="__blank">String.prototype.trimEnd()</a></div>
     </div>
   );
 }

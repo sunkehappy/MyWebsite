@@ -14,7 +14,7 @@ export default function PromiseFinally() {
 
   return (
     <div className={DefaultContentStyles.container}>
-      <h1>可选的捕获绑定</h1>
+      <h1>可选的异常捕获绑定</h1>
       <h2 className={DefaultContentStyles.custom_h2}>作用</h2>
       <div>
         以前的try/catch后面必须跟上具体的捕获绑定，现在可以不跟了。（强烈建议不要这么干，最好是能记录下异常，万一后面需要分析呢）

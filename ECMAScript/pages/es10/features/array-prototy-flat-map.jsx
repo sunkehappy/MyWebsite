@@ -35,7 +35,7 @@ console.log(JSON.stringify(nums.flatMap((item, index) => {\n\
         </code>
       </pre>
       <h2 className={DefaultContentStyles.custom_h2}>参考</h2>
-      <div>直接看文档吧<a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap">Array.prototype.flatMap()</a></div>
+      <div><a target="__blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap">Array.prototype.flatMap()</a></div>
     </div>
   );
 }
