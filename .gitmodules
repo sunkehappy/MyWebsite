@@ -4,3 +4,6 @@
 [submodule "myblog/themes/anatole"]
 	path = myblog/themes/anatole
 	url = https://github.com/lxndrblz/anatole.git
+[submodule "nginx/certificate"]
+	path = nginx/certificate
+	url = git@github.com:sunkehappy/BlogCertificate.git

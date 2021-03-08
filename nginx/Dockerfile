@@ -9,7 +9,7 @@ RUN rm /etc/nginx/conf.d/*
 COPY ./default.conf /etc/nginx/conf.d/
 
 # Copy the SSL related files.
-COPY ./ssl-certificate/ /etc/ssl/cert/
+COPY ./certificate/ /etc/ssl/cert/
 
 # Copy the blog files.
 COPY ./public/ /usr/share/nginx/html/
