@@ -48,7 +48,7 @@ addThisId = ""
 inlineToolId = ""
 
 [params.nav]
-showCategories = true       # /categories/
+showCategories = false       # /categories/
 showTags = true             # /tags/
 
 # custom navigation items
@@ -59,9 +59,20 @@ url = "/about"
 [[params.nav.custom]]
 title = "ES系列"
 url = "https://ecmascript.calvinhappy.com/"
+[[params.nav.custom]]
+title = "友情链接"
+url = "/friend-link"
+
 
 # for chinese
 [params.beian]
   icp = "沪ICP备2021002982号"     # example: 粤ICP备20056596号-1
   gongan = ""  # example: 粤公网安备 44030502005645号
   code = ""    # example: 44030502005645
+
+
+[params.profile]
+  enable = true
+  twitter = "sunkehappy"  # https://twitter.com/sunkehappy
+  github = "sunkehappy"  # https://github.com/XXX
+  email = "sunkehappy@mail.com"  # mailto:XXX@mail.com
