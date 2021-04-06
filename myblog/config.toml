@@ -54,7 +54,7 @@ showTags = true             # /tags/
 # custom navigation items
 
 [[params.nav.custom]]
-title = "关于"
+title = "关于我"
 url = "/about"
 [[params.nav.custom]]
 title = "ES系列"
