@@ -4,3 +4,4 @@ ECMAScript/node_modules/
 ECMAScript/.next/
 .git/
 .vscode/
+ob-build/
