@@ -14,9 +14,6 @@ COPY ./certificate/ /etc/ssl/cert/
 # Copy the blog files.
 COPY ./public/ /usr/share/nginx/html/
 
-# Copy the otms website files.
-COPY ./ob-build/ /usr/share/nginx/otmsHtml/
-
 # Expose the listening port
 EXPOSE 443
 EXPOSE 80
