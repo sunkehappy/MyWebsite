@@ -8,3 +8,4 @@ tags:           [个人博客]
 * [JerryQu 的小站](https://imququ.com/)
 * [Michael的文档](http://blog.yangxiaochen.com/)
 * [阮一峰的个人网站](http://www.ruanyifeng.com/)
+* [进口药购买网站](https://indianmedi.com/web)
