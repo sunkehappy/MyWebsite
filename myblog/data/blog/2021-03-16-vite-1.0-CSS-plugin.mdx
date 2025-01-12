@@ -1,0 +1,42 @@
+---
+date: 2021-03-16
+category: 前端
+title: vite-1.0 CSS插件解读
+tags: [vite, 源代码]
+summary: 这个`serverPluginCss`是用来处理CSS文件的，因为在vite里面CSS（包括SCSS这种预处理器）和JSON都被处理成JS module，然后再由HTML里面注入的`src/client/client.ts`来更新页面。
+---
+
+这个`serverPluginCss`是用来处理CSS文件的，因为在vite里面CSS（包括SCSS这种预处理器）和JSON都被处理成JS module，然后再由HTML里面注入的`src/client/client.ts`来更新页面。
+
+## 正常的请求处理
+
+![server-plugin-css-main](/static/images/vite/server-plugin-css-main.png)
+
+第28行用到的方法判断如下，就是简单的判断文件名：
+![server-plugin-css-re](/static/images/vite/server-plugin-css-re.png)
+第32行的这个根据文件名生成哈希值就很有意思了，我在这里展开讲：[vite 1.0 HMR客户端][hmr-client]。
+
+第34行的`processCSS`先跳过，下面再讲，简单来说就是生成CSS的，如果是裸的CSS其实是不需要处理的。但是如果是那些CSS预处理器，比如`stylus`，就需要先处理成CSS。
+
+第38行的`codegenCss`就是把生成的CSS打包成JS module，这样客户端浏览器就可以直接执行这些代码，在这些代码里面，会更新CSS，具体更新过程会在[vite 1.0 HMR客户端][hmr-client]里面讲
+
+第195行的`dataToEsm`是用的[Rollup](https://github.com/rollup/rollup)的功能，作用就是把数据转成ES Module，这样浏览器就能处理，就不详细介绍了，后面JSON文件的处理也是这么干的。
+
+## processCSS
+
+第144行的`__notModified`是vite自定义的一个属性，会在读取文件的时候给它赋值（参考`src/node/utils/fsUtils.ts`第42行）。
+
+第145行的`processedCSS`是一个缓存机制，这种缓存机制在整个vite中非常常见，通常来说就是文件做key，结果做value。比如说导入关系的两个map，就是通过文件名做key，可以快速获取导入这个文件的文件名集合，这个文件导入的文件名的集合。具体代码参考下面的第二张图。
+
+第150行的`preprocessLang`拿到的就是不带点的CSS文件后缀名。
+
+第152行的`compileCSS`底层是调用的[@vue/compiler-sfc]()来处理那些CSS预处理器的，这个在多个项目中都有用，比如vue，这里就不展开讲了。注意这个处理结果有可能是第163行的`string`，也就是普通的CSS，然后就直接返回了。也可能是`SFCStyleCompileResults`类型的结果。
+
+剩下的就是一些收尾工作，比如错误处理和更新缓存。
+![server-plugin-process-css](/static/images/vite/server-plugin-process-css.png)
+
+## ProcessedCSS
+
+![server-plugin-processed-css](/static/images/vite/server-plugin-processed-css.png)
+
+[hmr-client]: /posts/2021-03-17-vite-1.0-HMR-client

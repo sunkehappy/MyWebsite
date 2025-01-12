@@ -5,3 +5,10 @@ ECMAScript/.next/
 .git/
 .vscode/
 .hugo_build.lock
+myblog/node_modules/
+myblog/.next/
+myblog/.contentlayer/
+myblog/out/
+myblog/.yarn/
+nginx/out/
+node_modules/

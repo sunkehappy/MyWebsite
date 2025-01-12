@@ -1,7 +1,8 @@
-version: '3'
 services:
   nextjs:
-    build: ./ECMAScript
+    build: ./myblog
+    ports:
+      - 3000:3000
   nginx:
     build: ./nginx
     ports:

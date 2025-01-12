@@ -1,10 +1,12 @@
 cd myblog
-hugo --baseUrl="https://blog.calvinhappy.com/" -d ../nginx/public
+pnpm export
+rm -rf ../nginx/out/*
+mv out/* ../nginx/out
 cd ..
-rsync -rvz ./ --exclude-from=.gitignore calvinsun@8.130.31.240:~/mysite --delete
-# ssh calvinsun@8.130.31.240 > /dev/null 2>&1 << eeooff
+rsync -rvz ./ --exclude-from=.gitignore calvinsun@47.120.38.184:~/mysite --delete
+# ssh calvinsun@47.120.38.184 > /dev/null 2>&1 << eeooff
 # cd mysite
 # # -d表示以守护进程来启动
-# sudo docker-compose up --build -d
+# docker compose up --build -d
 # eeooff
 echo done!
