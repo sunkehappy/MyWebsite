@@ -10,7 +10,7 @@
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
-    "prepare": "node -e \"if (process.env.NODE_ENV !== 'production'){process.exit(1)} \" || cd .. && husky"
+    "prepare": ""
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
