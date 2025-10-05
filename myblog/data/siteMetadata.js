@@ -6,7 +6,7 @@ const siteMetadata = {
   description: '这是一个技术博客，用Next.js，Markdown还有Tailwind.css来构建的',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
+  siteUrl: 'https://www.calvinhappy.com/',
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
@@ -14,6 +14,7 @@ const siteMetadata = {
   email: 'sunkehappy@gmail.com',
   x: 'https://x.com/sunkehappy',
   stackoverflow: 'https://stackoverflow.com/users/1548523/sunkehappy',
+  freecalculators: 'https://www.freecalculators.app',
   // twitter: 'https://twitter.com/Twitter',
   // facebook: 'https://facebook.com',
   // youtube: 'https://youtube.com',

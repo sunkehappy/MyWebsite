@@ -12,6 +12,7 @@ import {
   Medium,
   Bluesky,
   StackOverflow,
+  Freecalculators,
 } from './icons'
 
 const components = {
@@ -28,6 +29,7 @@ const components = {
   medium: Medium,
   bluesky: Bluesky,
   stackoverflow: StackOverflow,
+  freecalculators: Freecalculators,
 }
 
 type SocialIconProps = {

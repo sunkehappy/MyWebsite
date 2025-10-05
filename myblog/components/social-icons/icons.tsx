@@ -120,3 +120,240 @@ export function StackOverflow(svgProps: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export function Freecalculators(svgProps: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="512" height="512" rx="96" fill="#1e293b" />
+
+      <rect x="40" y="40" width="432" height="432" rx="96" fill="#ffffff" />
+
+      <rect x="100" y="100" width="312" height="50" rx="12" fill="#000000" />
+      <text
+        x="392"
+        y="140"
+        textAnchor="end"
+        fontFamily="monospace"
+        fontSize="36"
+        fontWeight="bold"
+        fill="#00ff00"
+      >
+        123.45
+      </text>
+
+      <rect x="100" y="180" width="65" height="50" rx="6" fill="#ff6b6b" />
+      <text
+        x="132.5"
+        y="212"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        C
+      </text>
+
+      <rect x="185" y="180" width="65" height="50" rx="6" fill="#4ecdc4" />
+      <text
+        x="217.5"
+        y="212"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        ±
+      </text>
+
+      <rect x="270" y="180" width="65" height="50" rx="6" fill="#4ecdc4" />
+      <text
+        x="302.5"
+        y="212"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        %
+      </text>
+
+      <rect x="355" y="180" width="57" height="50" rx="6" fill="#3b82f6" />
+      <text
+        x="383.5"
+        y="212"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        ÷
+      </text>
+
+      <rect x="100" y="250" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="132.5"
+        y="282"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        7
+      </text>
+
+      <rect x="185" y="250" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="217.5"
+        y="282"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        8
+      </text>
+
+      <rect x="270" y="250" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="302.5"
+        y="282"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        9
+      </text>
+
+      <rect x="355" y="250" width="57" height="50" rx="6" fill="#3b82f6" />
+      <text
+        x="383.5"
+        y="282"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        ×
+      </text>
+
+      <rect x="100" y="320" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="132.5"
+        y="352"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        4
+      </text>
+
+      <rect x="185" y="320" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="217.5"
+        y="352"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        5
+      </text>
+
+      <rect x="270" y="320" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="302.5"
+        y="352"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        6
+      </text>
+
+      <rect x="355" y="320" width="57" height="50" rx="6" fill="#3b82f6" />
+      <text
+        x="383.5"
+        y="352"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="20"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        -
+      </text>
+
+      <rect x="100" y="390" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="132.5"
+        y="420"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="18"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        1
+      </text>
+
+      <rect x="185" y="390" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="217.5"
+        y="420"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="18"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        2
+      </text>
+
+      <rect x="270" y="390" width="65" height="50" rx="6" fill="#34495e" />
+      <text
+        x="302.5"
+        y="420"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="18"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        3
+      </text>
+
+      <rect x="355" y="390" width="57" height="50" rx="6" fill="#ef4444" />
+      <text
+        x="383.5"
+        y="420"
+        textAnchor="middle"
+        fontFamily="system-ui"
+        fontSize="18"
+        fontWeight="bold"
+        fill="#ffffff"
+      >
+        =
+      </text>
+    </svg>
+  )
+}
