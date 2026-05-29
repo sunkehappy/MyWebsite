@@ -1,20 +1,25 @@
 # Deploy with Docker
 
-Follow the [official Next.js repo docker build example and instructions](https://github.com/vercel/next.js/tree/canary/examples/with-docker) to deploy with docker. Copy the [`Dockerfile`](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) into the root of the project and modify the `next.config.js` file:
+本项目包含两套 Docker 用法，详见 [根目录 README](../../README.md#本地-docker)。
 
-```js
-// next.config.js
-module.exports = {
-  // ... rest of the configuration.
-  output: 'standalone',
-}
-```
-
-You can now build the docker image and run it:
+## 仅 Next.js（`myblog/Dockerfile`）
 
 ```bash
-docker build -t nextjs-docker .
-docker run -p 3000:3000 nextjs-docker
+cd myblog
+docker build -t myblog .
+docker run --rm -p 3000:3000 myblog
 ```
 
-Alternatively, to use docker compose, refer to the [docker compose repo](https://github.com/vercel/next.js/tree/canary/examples/with-docker-compose).
+镜像基于 Node 18 + pnpm + pm2-runtime，构建时执行 `pnpm build`，启动命令为 `pnpm serve`（`next start`）。
+
+## 完整栈（仓库根目录 `docker-compose.yml`）
+
+需先静态导出并填充 `nginx/out/`，再在仓库根目录执行：
+
+```bash
+cd myblog && pnpm export && cd ..
+mkdir -p nginx/out && cp -r myblog/out/* nginx/out/
+docker compose up --build -d
+```
+
+线上发布流程见根目录 `release.sh` 与 [README.md](../../README.md)。
