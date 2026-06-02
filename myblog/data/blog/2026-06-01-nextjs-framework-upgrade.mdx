@@ -1,0 +1,87 @@
+---
+date: 2026-06-01
+category: Frontend
+title: Next.js框架升级
+tags: [React, Frontend, Next.js]
+summary: 在功能开发告一段落之后，我在考虑想去看下前端有没有什么新技术可以学（AI的已经在学了）。忽然想到我们的Next.js版本好久没有升级了，也不知道有没有新版本，新版本会带来什么提升。然后我就去看了下，还真有新版本，而且提升好像还不小。
+---
+
+## 为什么要升级？
+
+我看到新版本是大版本升级，而且带来了比较大的性能提升，然后我实际测试下来确实有明显的打包速度提升。
+
+## 版本变更
+
+| 依赖      | 升级前 | 升级后 |
+| --------- | ------ | ------ |
+| Next.js   | 15.5.7 | 16.2.6 |
+| React     | 19.1.2 | 19.2.6 |
+| React-DOM | 19.1.2 | 19.2.6 |
+
+## 代码变更
+
+### middleware.ts => proxy.ts
+
+这个是文件的重命名，原因是为了语义清晰。
+
+1. 避免和 Express middleware 混淆 — 很多人把它当成通用业务中间件来用
+2. 明确职责 — proxy 强调它是网络边界层，适合做 redirect、rewrite、改 header 等轻量拦截
+3. 长期方向 — Next.js 希望尽量用其他 API（如 redirects、Route Handlers、Server Components）替代，只在必要时才用 proxy。
+
+### react-hooks/set-state-in-effect
+
+这个写法类似下面的，我们在开发的时候经常会这么写。
+
+```javascript
+function Component({ data }) {
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    setItems(data) // Extra render, use initial state instead
+  }, [data])
+}
+```
+
+他带来的坏处就是多了一次渲染，我们直接改成`const [items, setItems] = useState(data);`是更加高效的做法，少了一次渲染。虽然单次来看少一次渲染带来的性能提升微乎其微，但如果页面比较复杂，多一次渲染带来的提升就不可小觑了。性能提升总是积少成多，像这种可以借助工具就能直接带来性能提升的地方，我们都应该尽量做掉。
+
+当然也不是说这样就没有坏处，比如我们这里就是一个被误杀的情况。我们的目的是SSR的时候做xxx，客户端渲染的时候做yyy。所以不能直接用`useState(true)`。
+
+```javascript
+const [hasMounted, setHasMounted] = useState(false)
+
+useEffect(() => {
+  setHasMounted(true)
+}, [])
+```
+
+那怎么办呢？直接再写一个hooks，里面忽略这个rule：
+
+```javascript
+export function useHasMounted(): boolean {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    // hydration 后切换客户端 UI，无法用 render 派生
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional post-hydration flag
+    setHasMounted(true);
+  }, []);
+
+  return hasMounted;
+}
+```
+
+水合问题修复
+具体的修改点参考这里。
+打包速度效果统计
+为了排除干扰，我们统一用T2环境交叉打包（一次用master分支，一次用我们优化后分支），统计5次结果，重点是打包速度，制作镜像和发布镜像这些步骤不统计。dev服务器带来的提升也不统计。
+
+| 轮次 | 优化前 | 优化后 |
+| ---- | ------ | ------ |
+| 1    | 169.2s | 66.4s  |
+| 2    | 164.8s | 70.8s  |
+| 3    | 164.1s | 67.3s  |
+| 4    | 164.7s | 67.3s  |
+| 5    | 162.5s | 67.1s  |
+| 平均 | 165.1s | 67.8s  |
+
+降低了58.9%，约1分37秒。
