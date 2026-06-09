@@ -12,7 +12,7 @@ COPY ./default.conf /etc/nginx/conf.d/
 COPY ./certificate/ /etc/ssl/cert/
 
 # Copy the blog files.
-COPY ./out/ /usr/share/nginx/html/
+# COPY ./out/ /usr/share/nginx/html/
 
 # Expose the listening port
 EXPOSE 443

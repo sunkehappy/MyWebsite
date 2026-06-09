@@ -1,10 +1,9 @@
 services:
-  nextjs:
-    build: ./myblog
-    ports:
-      - 3000:3000
   nginx:
     build: ./nginx
     ports:
       - 80:80
       - 443:443
+    volumes:
+      # 静态文件由 release.sh 本地 export 后 rsync 同步，挂载即可，无需 rebuild
+      - ./nginx/out:/usr/share/nginx/html:ro

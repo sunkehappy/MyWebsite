@@ -24,7 +24,7 @@ pnpm dev
 
 ## 本地 Docker
 
-线上以 **静态导出 + Nginx** 部署；`myblog/Dockerfile` 与根目录 `docker-compose.yml` 配合使用。日常开发推荐 `pnpm dev`，Docker 用于本地验证镜像或与线上一致的编排。
+线上以 **本地静态导出 + Nginx 挂载** 部署；`docker-compose.yml` 仅包含 Nginx。`myblog/Dockerfile` 仅供本地 Docker 调试 Next.js，线上不使用。
 
 ### 方式一：仅启动 Next.js 容器（在 `myblog` 目录）
 
@@ -40,9 +40,9 @@ docker run --rm -p 3000:3000 myblog
 
 停止容器：`Ctrl+C`（`docker run` 前台）或另开终端 `docker stop <container_id>`。
 
-### 方式二：完整栈（Nginx + Next.js，与线上一致）
+### 方式二：本地验证 Nginx 静态站（与线上一致）
 
-在**仓库根目录**执行。主站由 Nginx 提供 `nginx/out/` 中的静态文件，启动前须先导出并拷贝静态资源。
+在**仓库根目录**执行。线上仅 **Nginx + 静态文件挂载**，不跑 Next.js 容器、不在服务器上 build。
 
 ```bash
 # 在仓库根目录 next-js-blog 下执行
@@ -57,14 +57,13 @@ cd ..
 mkdir -p nginx/out
 cp -r myblog/out/* nginx/out/
 
-# 3. 构建并后台启动
-docker compose up --build -d
+# 3. 启动 Nginx（首次需 build 镜像，之后改静态文件只需 restart）
+docker compose up -d --build
 ```
 
 | 服务 | 端口 | 说明 |
 |------|------|------|
-| `nginx` | 80, 443 | 提供静态站与 HTTPS；80 会 301 到 `https://www.calvinhappy.com` |
-| `nextjs` | 3000 | SSR 备用，当前主站 Nginx 配置未反向代理到该服务 |
+| `nginx` | 80, 443 | 挂载 `nginx/out/` 提供静态站与 HTTPS；80 会 301 到 HTTPS |
 
 **本地访问主站静态页：** `nginx/default.conf` 将 HTTP 重定向到 `https://www.calvinhappy.com`。若要在本机用域名访问，可在 `/etc/hosts` 增加：
 
@@ -79,7 +78,7 @@ docker compose up --build -d
 ```bash
 docker compose ps              # 查看状态
 docker compose logs -f nginx   # 查看 Nginx 日志
-docker compose restart nginx   # 仅重启 Nginx（例如更新了 nginx/out）
+docker compose restart nginx   # 更新了 nginx/out 后重启即可，无需 --build
 docker compose down            # 停止并移除容器
 ```
 
@@ -87,26 +86,27 @@ docker compose down            # 停止并移除容器
 
 ## 发布
 
-### 一键发布（本地）
+### 一键发布（本地 build + 同步）
 
 根目录执行 `./release.sh`，会依次：
 
-1. `cd myblog && pnpm export` 生成静态站
+1. `cd myblog && pnpm export` 本地生成静态站
 2. 拷贝到 `nginx/out/`
 3. `rsync` 同步到服务器 `root@47.120.38.184:~/mysite`
+4. SSH 执行 `docker compose up -d` 与 `docker compose restart nginx`（**不 rebuild**，避免服务器上 Node build 卡死）
 
-脚本内 SSH 自动执行 `docker compose` 目前为注释状态，同步后需登录服务器手动启动（见下）。
+### 线上架构
 
-### 线上启动
+仅 **Nginx 容器 + 挂载 `nginx/out/` 静态目录**。不在服务器上执行 `pnpm build` / `pnpm export`。
 
-SSH 登录服务器后，在项目目录执行：
+首次部署或 Nginx 配置/证书变更时，需 SSH 登录服务器手动 build 一次 Nginx 镜像：
 
 ```bash
 cd ~/mysite
-docker compose up --build -d
+docker compose up -d --build
 ```
 
-`-d` 表示后台运行；`--build` 在镜像或静态资源有变更时重新构建。
+日常发布跑 `./release.sh` 即可，无需 `--build`。
 
 ### 手动 rsync
 
