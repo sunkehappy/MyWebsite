@@ -43,6 +43,15 @@ input:-webkit-autofill:focus {
   overflow: auto hidden;
 }
 
+/* 块级公式左对齐，用法：<div className="math-left">...</div>（标签与 $$ 之间不要空行） */
+.math-left .katex-display {
+  text-align: left;
+}
+
+.math-left .katex-display > .katex {
+  text-align: left;
+}
+
 .content-header-link {
   opacity: 0;
   margin-left: -24px;

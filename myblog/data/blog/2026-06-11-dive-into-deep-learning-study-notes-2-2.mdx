@@ -1,0 +1,226 @@
+---
+date: 2026-06-14
+category: AI
+title: 《动手学深度学习》学习笔记（二）下
+tags: [AI, Deep Learning, study notes]
+summary: 这篇博客主要是我学习第二章的笔记的下半部分，因为第二章比较长，所以就拆成了2部分
+---
+
+> 注：说实话如果单纯看书，我觉得难度很大，但现在有了ChatGPT，不懂的直接甩过去，给我讲的明明白白，顺带一连串的彩虹屁，让我觉得我马上就能训练出ChatGPT 6！
+
+## 微积分
+
+### 导数和求导
+
+导数就是一个函数在他的参数作用下，变化的速率。
+
+并不是所有函数都可以求导，对那些不可以求导的，如果我们仍然想在深度学习里面去训练，可以用中间结果，而不是最终结果（举例比如分类问题，他们的值不连续）。
+
+函数的导数可以有多种表示形式：
+
+$$
+\boxed{f'(x)} = \boxed{y'} = \boxed{\frac{dy}{dx}} = \boxed{\frac{df}{dx}} = \boxed{\frac{d}{dx}f(x)}
+$$
+
+下面是一些常见函数的导数：
+
+<div className="math-left">
+$$
+\begin{aligned}
+\frac{d}{dx} C &= 0 && \text{for any constant } C \\
+\frac{d}{dx} x^n &= n x^{n-1} \\
+\frac{d}{dx} e^x &= e^x \\
+\frac{d}{dx} \ln x &= x^{-1}
+\end{aligned}
+$$
+</div>
+然后是一些求导时候函数组合的常用规则：
+
+<div className="math-left">
+$$
+\begin{aligned}
+\frac{d}{dx}[Cf(x)] &= C\frac{d}{dx}f(x) \\
+\frac{d}{dx}[f(x)+g(x)] &= \frac{d}{dx}f(x) + \frac{d}{dx}g(x) \\
+\frac{d}{dx}[f(x)g(x)] &= f(x)\frac{d}{dx}g(x) + g(x)\frac{d}{dx}f(x) \\
+\frac{d}{dx}\frac{f(x)}{g(x)} &= \frac{g(x)\frac{d}{dx}f(x) - f(x)\frac{d}{dx}g(x)}{g^2(x)}
+\end{aligned}
+$$
+</div>
+
+### 偏导数和梯度下降
+
+#### 偏导数
+
+首先偏导数是指**固定其他变量，只研究一个变量的导数**。用数学公式的话就是：
+
+$$
+\frac{\partial y}{\partial x_i}
+=
+\lim_{h \to 0}
+\frac{
+  f(x_1,\ldots,x_{i-1},x_i+h,x_{i+1},\ldots,x_n)
+  - f(x_1,\ldots,x_i,\ldots,x_n)
+}{h}
+$$
+
+简单一点也就是这个公式：
+
+<div className="math-left">
+$$
+\begin{aligned}
+\frac{\partial y}{\partial x_i} &= \frac{\partial f}{\partial x_i} = \partial_{x_i} f = \partial_i f \\
+&= f_{x_i} = f_i = D_i f = D_{x_i} f
+\end{aligned}
+$$
+</div>
+
+公式不太好理解，看下面的例子：
+
+$$
+z=x^2+y^2
+$$
+
+然后 $x$ 的偏导数就是：计算时把除 $x$ 以外的变量当作常数。对 $z = x^2 + y^2$ 来说，$y^2$ 相对于 $x$ 就是常数项：
+
+$$
+x^2 + \text{常数}
+$$
+
+那结果就是：
+
+$$
+\boxed{
+\frac{\partial f}{\partial x}=2x
+}
+$$
+
+#### 梯度下降
+
+梯度下降的公式就是，对所有的变量分别求偏导数，然后把他们放到一个向量里面，然后再把这个向量转置一下，就行了：
+
+$$
+\nabla_{\mathbf x}f(\mathbf x)
+=
+[
+\partial_{x_1}f(\mathbf x),
+\partial_{x_2}f(\mathbf x),
+...,
+\partial_{x_n}f(\mathbf x)
+]^T
+$$
+
+那为什么最后要转置一下呢？因为比如有x，y，z三个变量，那这个函数的输入就是
+
+$$
+\mathbf{f}
+=
+\begin{bmatrix}
+x\\
+y\\
+z
+\end{bmatrix}
+$$
+
+同时假设他的梯度是：
+
+$$
+\nabla f
+=
+\begin{bmatrix}
+4\\
+5\\
+6
+\end{bmatrix}
+$$
+
+学习率用这个：
+
+$$
+\eta=0.1
+$$
+
+那么计算结果就是：
+
+$$
+\begin{bmatrix}
+1\\
+2\\
+3
+\end{bmatrix}
+-
+0.1
+\begin{bmatrix}
+4\\
+5\\
+6
+\end{bmatrix}
+=
+\begin{bmatrix}
+0.6\\
+1.5\\
+2.4
+\end{bmatrix}
+$$
+
+如果求梯度的时候不转置一下，计算的时候就要先转置一下，要不然无法计算。
+
+### 链式法则
+
+据说这是深度学习里面最重要的公式。用最简单的话描述就是：**把从 x_i 到 y 的所有路径都找出来，每条路径上的导数相乘，最后全部相加**。公式的简单版本是：
+
+$$
+\boxed{
+\frac{dy}{dx}
+=
+\frac{dy}{du}
+\cdot
+\frac{du}{dx}
+}
+$$
+
+而它的超长版本就是：
+
+$$
+\frac{\partial y}{\partial x_i}
+=
+\frac{\partial y}{\partial u_1}
+\frac{\partial u_1}{\partial x_i}
++
+\frac{\partial y}{\partial u_2}
+\frac{\partial u_2}{\partial x_i}
++\cdots+
+\frac{\partial y}{\partial u_m}
+\frac{\partial u_m}{\partial x_i}
+$$
+
+举一个实际的例子：
+
+$$
+u_1=x+y
+$$
+
+$$
+u_2=xy
+$$
+
+$$
+z=u_1+u_2
+$$
+
+而我们要求的就是：
+
+$$
+\frac{\partial z}{\partial x}
+$$
+
+计算结果就是：
+
+$$
+\boxed{
+\frac{\partial z}{\partial x}
+=
+1+y
+}
+$$
+
+## 自动求导
