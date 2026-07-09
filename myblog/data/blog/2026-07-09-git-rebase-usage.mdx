@@ -1,0 +1,30 @@
+---
+date: 2026-07-09
+category: Git
+title: 命令行用git的rebase
+tags: [Git, rebase]
+summary: 我之前比较少用rebase，因为这个命令带来的收益并不明显，但用坏了破坏性却很大，今天特殊场景就试了下，重在体验
+---
+
+## 原因
+我新建了一个仓库[学习RAG](https://github.com/sunkehappy/learn-rag)，由于前期不规范，我把我的OpenAI API Key放到.env里面之后，提交到git里面了，然后当我推送到GitHub的时候，远程仓库拒绝了我的推送：
+![github reject secrets](/static/images/2026-07-09-git-rebase-usage/github-reject-secrets.png)
+
+## 做法
+然后这里我就有几个不同的做法选项：
+* 直接强推。这样我的api就暴露了，然后别人可能刷我的资源，虽然我这是体验包，但这不是一个好习惯。
+* 重搞一个分支。把相关文件都搞进去，重新生成提交历史，然后分支重命名成main，然后再推送。
+* git rebase。直接修改历史记录（**注意我的分支还没有推送到任何远程，所以可以做rebase**），改好后再推上去。
+
+由于我之前没怎么用过rebase（用的比较少），所以这里我就体验一把rebase，参考的是这篇文档：[Working with push protection from the command line](https://docs.github.com/en/code-security/how-tos/secure-your-secrets/work-with-leak-prevention/push-protection-on-the-command-line#resolving-a-blocked-push)。
+
+最开始我是尝试的SourceTree，发现不好用（或者我的使用方法不对，也没看文档，纯摸索的），然后我就切到了命令行里面照着文档来操作，从坏掉的commit开始rebase，然后一点一点解决冲突，直到完成整个rebase。其实核心步骤就是：
+* `git rebase -i <COMMIT-ID>~1`开始rebase，这里的`COMMIT-ID`就是我们出问题最早的的提交
+* 处理冲突。就是把冲突的文件修改一下，添加(`git add`)或者删除(`git rm`)。
+* `git rebase --continue`继续
+* 重复2，3步，一直到结束
+
+![git rebase example](/static/images/2026-07-09-git-rebase-usage/git-rebase-example.png)
+
+## 总结
+多尝试下多熟悉下自己没怎么玩过的东西，会有不一样的体验
