@@ -1,0 +1,43 @@
+---
+date: 2026-07-10
+category: AI
+title: 从零开始学RAG（一）
+tags: [AI, LLM, RAG]
+summary: 通过前面粗浅的学习机器学习相关知识，我了解了概念，现在要通过真实的例子一步一步来实践学到的知识，模拟真实场景，解决实际问题。
+---
+
+## 学习方法
+
+我是直接跟着ChatGPT，从0开始学的，其实路线也是慢慢摸索出来的，本来我是看了字节的一个招聘贴，上面提到RAG，Embedding这些关键词，正好我没有仔细学过RAG，也有点感兴趣，就顺着这条路线，深入的学习一下。不论学习什么东西，“纸上得来终觉浅，绝知此事要躬行”。写代码搞一个就好了，然后网上搜各种RAG的优化啊，问题啊，我都在我做的这个系统里面搞一搞。
+
+## 搭框架
+
+简版RAG很好搞，大致的流程如下：
+
+1. 读取本地 docs 目录下的 Markdown
+2. 切块成chunk
+3. 生成 embedding
+4. 存到 Chroma
+5. 命令行提问，问题也生成embedding
+6. 检索文档（就是拿着问题的embedding搜索chroma）
+7. 把参考资料和问题传给大模型调用，回答并显示引用
+
+## 选大模型
+
+我本来是想用OpenAI的，因为我觉得ChatGPT的付费版很好用，不敢说最好，但稳定+优秀。而OpenAI的api和ChatGPT是分开付费的，我的ChatGPT之前是找人代充，现在是买的Apple的礼品卡，我没有国外银行卡，所以我充不了OpenAI。我也简单搜了下那些中转的，没细看，觉得不太合适，如果是图便宜还不如直接用国内的。最终我选择了用阿里的[百炼](https://bailian.console.aliyun.com)，不用挑来挑去，之前没薅过他们的羊毛，还送的有1M的token，先白嫖起来吧。
+
+## 代码
+
+我最开始代码是放到本地的，为了长期维护，我把代码放到github了：[learn-rag](https://github.com/sunkehappy/learn-rag)。
+
+### 编程语言
+
+现在编程语言我仍然是用的Python，因为AI相关的开发确实是用Python的比较多，他的生态最完善。当然Python没有完善的类型定义和检查，所以我也遇到了KeyError这种本来可以通过类型检查避免的错误。然后我就开启了[Pyright](https://github.com/microsoft/pyright)，虽然赶不上TypeScript，但要比裸的Python好很多。
+
+### dataclass
+
+之前我几乎没接触过dataclass，它说白了就是通过装饰器可以让我们方便的把数据包装到一起，而不用写一大坨那些初始化和打印的代码。
+
+## embedding
+
+这里的chunk生成embedding的时候，调用的是专用的embedding的大模型，它跟大模型回答时候里面的embedding不是一回事儿。这里的embedding一般是本地做的，为了本地搜索匹配而用的，而且这里面一般都已经包含了语义搜索（因为语义近的话，他们生成出来的向量之间的距离就近，而具体如何把文本映射到向量，这是这个embedding模型做的，训练出来的结果）。
