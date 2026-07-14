@@ -1,5 +1,5 @@
 ---
-date: 2026-07-14
+date: 2026-07-13
 category: AI
 title: 从零开始学RAG（三）
 tags: [AI, LLM, RAG]
@@ -130,10 +130,21 @@ summary: 前面我们已经做了V2的版本，已经可以实现多轮对话（
   },
 ```
 
+## 第4次优化
+
+上面的问题还是有点少，而且部分问题和答案质量低，比如仍然有问题的答案用了`_index.md`这种来源，我们期望是用正文作为答案。同时再补充一些测试case，尽量所有主题都能覆盖到（当然不是所有细节哈）。
+
+另外发现了一个bug，部分文档（约565/4107篇）在ChromaDB里面没有，原因是我们之前的chunk切分策略是按照`h2`来做的，但是像[Handling data as a Support Engineer
+](https://handbook.gitlab.com/handbook/support/workflows/data_handling/)这种文档，里面没有`h2`，所以我们要提供兜底策略，比如回退到整篇文章，或者回退到`h3`。
+
+同时这样暴露了我们的单测覆盖度不够，漏了这么多文档，单元测试没报错？？？anyway，发现了就继续修复吧。当然即使是修复完，也还会有部分文档在ChromaDB里面没有，因为有些文档就特别短，甚至是里面没啥内容，所以也不需要入库的。
+![4 round unit test](/static/images/2026-07-14-learn-rag-03-unit-test-and-validation/4-round-unit-test.png)
+
 ## 最后
 
 到这里基本算是完成了这一轮添加unit test的基本任务，虽然要优化的点还有很多，但阶段性的任务已经完成了。后续要做的任务比如：
 
 - rerank。比如上面com-004的期望答案都不在top-5，肯定找不到这个答案的
-- query rewrite。这个放到unit test里面太慢太贵
+- query rewrite。这个放到unit test里面太慢太贵。但我们现在测试用例能够全部通过，前提是对问题做过query rewrite了。
 - 添加更多的测试用例。
+- 测试效率。目前跑一轮大概需要1分钟多，这个略微有点慢吧，但慢在哪里呢？有优化的空间吗？

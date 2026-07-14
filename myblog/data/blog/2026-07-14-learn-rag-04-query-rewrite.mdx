@@ -1,0 +1,141 @@
+---
+date: 2026-07-14
+category: AI
+title: 从零开始学RAG（四）Query Rewrite
+tags: [AI, LLM, RAG, Query Rewrite]
+summary: 前面我们已经做了V3的版本，基础的问答包括简单的多轮对话都支持了，而且加上了基础的单元测试（重点是retrieval，e2e的几乎还没有测试）。这次我们要加的功能是query rewrite。
+---
+
+前面我们已经做了V3的版本，基础的问答包括简单的多轮对话都支持了，而且加上了基础的单元测试（重点是retrieval，e2e的几乎还没有测试）。这次我们要加的功能是query rewrite。
+
+## query rewrite
+
+前一个版本里面，我们的retrieval里面测试用例的问题和Query是我们手工写的，比如下面这个：
+
+```javascript
+  {
+    "id": "eng-006",
+    "topic": "engineering",
+    "question": "Duo-First Development 标准做法是什么？",
+    "expected_source": "gitlab_handbook/engineering/workflow/duo-first-development.md",
+    "expected_section": "Overview",
+    "expected_country_code": null,
+    "expected_entity": null,
+    "search_query": "Duo-First Development Standard Development Practices MR Generation"
+  },
+    {
+    "id": "pto-014",
+    "topic": "time_off",
+    "question": "病假期间工资怎么发？",
+    "expected_source": "gitlab_handbook/people-group/time-off-and-absence/time-off-types.md",
+    "expected_section": "Sick Time",
+    "expected_country_code": null,
+    "expected_entity": null,
+    "search_query": "sick time policy 25 paid sick days rolling 12 months Workday Out Sick"
+  },
+```
+
+我们可以看出来这里的search query太精准了，所以我们的retrieval非常精确，300个测试用例全部通过了。而这次我们要做的就是，自己写Query Rewrite，然后再看测试用例能否通过。
+
+## query rewrite是什么
+
+他的作用就是：
+
+> 不直接拿用户的原始问题去检索，而是先把用户的问题转换成更适合搜索系统理解的查询，再拿改写后的内容去搜索。
+> 比如这个问题：“我身体不舒服，能请假吗？”，他有以下几个明显的问题：
+
+- 没有 sick leave；
+- 没有 employee policy；
+- 没有 duration。
+  Query Rewrite 可以把它改成：“Sick leave policy for employees including leave duration and eligibility requirements”。
+
+## query rewrite到底要补充或者完善什么？
+
+```javascript
+原始用户问题
+    ↓
+补全上下文
+去除无关表达
+解决代词指代
+补充核心实体
+补充领域术语
+统一语言
+拆分问题
+生成同义查询
+提取元数据条件
+```
+
+尤其是多轮对话里面，我们要把用户的口语化的表述，多个句子合并到一起，写的更加正式一点，补充相关信息，转换成目标语言，再去查询。
+
+## 哪些时候不能改写？
+
+问题已经比较全面完善。都弄好了就不要多此一举，当然说实话我觉得这个可以直接排除，实际中基本都需要Rewrite。
+
+## 改写的反面教材
+
+### 改写的时候偷偷回答问题：
+
+```javascript
+原问题：中国员工病假多少天？
+改写结果：中国员工依法可以休3到24个月医疗期
+```
+
+### 补充用户没有提供的事实
+
+比如用户问：`病假多少天？`。但改写后变成了`上海 GitLab 正式员工病假多少天？`，直接多出不相干的事实`上海`，`Gitlab`，`正式员工`。
+
+### 过度改写
+
+原问题是`GitLab 中国病假多少天？`，直接改写成了：
+
+```javascript
+GitLab 中国员工依据劳动法、劳动合同法、社会保险法、地方性法规、企业规章制度所享有的病假、医疗期、工资、保险、解雇保护、续签与绩效评估政策
+```
+
+改写的时候，长一点能够更加聚焦，这样搜索的时候能更容易命中答案。但如果太长，就可能太发散，导致匹配的不太相关的东西太多，有可能正确答案就捞不出来了。
+
+### 丢掉用户约束
+
+比如用户问：`只看 GitLab 官方 Handbook，中国员工病假有多少天？`，改写后变成了`China sick leave policy`。这种改写就是不合适的。
+
+### 没有任何提升
+
+比如原问题是`如何请病假？`, `Sick leave policy`，这只是从中文变成了英文，几乎没有提升的，不合适，至少也得补充一些额外信息才行。
+
+## 第一轮结果：
+
+增加了Query Rewrite之后，我就去掉了之前的测试用例里面的`search_query`，不是删掉了，而是不用他，用Query Rewrite之后的结果。而且新增了并发测试，这样跑的速度更快。结果不理想，跑一次10个问题，错了2个。
+
+![round 1 unit test](/static/images/2026-07-14-learn-rag-04-query-rewrite/round-1-result.png)
+
+错的原因是，Rewrite写的不好，泛化了问题，太发散导致正确答案没有被匹配到。
+| 用例 | LLM 多写了什么（有害） | LLM 缺了什么（gold 有） |
+| --- | --- | --- |
+| arch-001 | overview handbook documentation technical section | Complexity at Scale |
+| arch-002 | product + planning documentation handbook | Multi-Large Sites Cloud Native（且应是 engineering architecture） |
+
+## 第二轮结果
+
+在第一轮的基础上，我们优化了提示词，这个提示词现在也挺复杂的，因为她要做的事情比较多，如下：
+
+- 检测用户语言（因为我们期望不是英文的话转换成英文再去本地搜索匹配）
+- 主题分类
+- 用户意图匹配
+- 提取国家
+- 提取entity
+- Rewrite
+
+最开始一个做的不好的地方就是把是否缺失国家和entity也放到大模型里面了，这个其实应该我们自己写代码去匹配。因为这个只需要精确匹配，大模型去匹配浪费资源不说，还可能出错。
+
+经过上面调整prompt，这次用Query Rewrite来真实测试搜索的情况：
+![round 2 unit test](/static/images/2026-07-14-learn-rag-04-query-rewrite/round-2-result.png)
+
+## TODO
+
+这个测试结果已经达到了这次的学习目的，而且现在的正确率90%还可以接受，今天的任务基本算完成了。下次准备研究剩下的几个知识点：
+
+- Query Decomposition
+- Multi-query
+- HyDE
+
+但我又想了一下，我现在最迫切的一个优化点应该是调整一下评测的策略，目前是精确匹配Recall@1，但这个一般来说进入Recall@5，然后大模型回答的时候还是有机会答对的，所以我们应该用打分机制来做评测，而不是现在这种True/False。
