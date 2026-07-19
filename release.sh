@@ -17,6 +17,7 @@ rsync -rvz ./ --include=nginx/out --include=.git --exclude-from=.gitignore "${SE
 ssh "${SERVER}" bash -s << 'EOF'
 set -euo pipefail
 cd ~/mysite
+git push
 docker compose up -d
 docker compose restart nginx
 EOF
