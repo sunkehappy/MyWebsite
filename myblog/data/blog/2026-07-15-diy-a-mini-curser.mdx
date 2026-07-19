@@ -1,0 +1,197 @@
+---
+date: 2026-07-15
+category: AI
+title: 自己动手做一个Mini-Cursor
+tags: [AI, LLM, Cursor]
+summary: 前面两个多月一直在学习AI相关的知识，读到了一篇文章[“如果你不能用300行代码写个Cursor，这行你就别待了！”Ralph Loop创造者、Claude Code核心技术设计者的暴论](https://mp.weixin.qq.com/s/lG3fu_bNlk4n_yqIQy2DKg)，我也有点震撼，Cursor的实现这么简单吗？我必须要琢磨学习下。再次感谢大模型，感谢深度学习，让我能这么快的学习新知识。
+---
+
+前面两个多月一直在学习AI相关的知识，读到了一篇文章[“如果你不能用300行代码写个Cursor，这行你就别待了！”Ralph Loop创造者、Claude Code核心技术设计者的暴论](https://mp.weixin.qq.com/s/lG3fu_bNlk4n_yqIQy2DKg)，我也有点震撼，Cursor的实现这么简单吗？我必须要琢磨学习下。再次感谢大模型，感谢深度学习，让我能这么快的学习新知识。
+
+## Cursor都需要干啥？
+
+我们先要理清楚Cursor都需要干啥（指的是最基本的需求哈，像queue input, fork context这些高端操作，都是后来才加的）。
+
+```javascript
+用户输入需求
+    ↓
+收集项目文件
+    ↓
+把相关代码交给大模型
+    ↓
+大模型生成 unified diff
+    ↓
+展示修改内容
+    ↓
+用户确认
+    ↓
+git apply 应用修改
+    ↓
+运行测试
+```
+
+真正复杂的不是聊天输入框，而是四件事情（这是ChatGPT告诉我的）：
+
+- 给模型提供哪些代码上下文；
+- 如何让模型可靠地修改文件；
+- 如何运行命令并把结果反馈给模型；
+- 如何限制模型，避免破坏项目。
+
+看起来也没什么神奇的东西，那我们就一步一步来实现吧。
+
+## 对应的伪代码
+
+声明：我是先看了ChatGPT给我的代码，然后反向推导的对应的伪代码，因为伪代码可以让我们专注于框架设计，忽略细节，更加有利于我们的初期学习。
+
+```javascript
+    input = read_`input()
+    context = read_all_code()
+    patch = generate_git_patch(input, context)
+    apply_patch(patch)
+```
+
+整体思路非常简单，就是把相关代码（这里为了简单直接把所有代码怼进去）和用户的诉求告诉大模型，同时通过prompt限制大模型输出成git patch，然后我们让用户选择是否应用这些patch，结束。
+
+### 优化方向
+
+我们可以明显的看出，现在的实现方式问题太多了，几乎是不可用的：
+
+- 一次性把所有文件都喂给大模型。不相关的文件和内容太多了，会导致成本很高，处理延迟也不低
+- 大模型只调用了一次。我们应该是以Agent的形式来处理，比如只输入一部分文件，大模型告诉我们不够，返回tool calling的请求想读取更多文件。读完了之后他输出结果，然后又调用脚本来验证部分结果，再根据结果决定到此为止还是继续修复问题，等等。
+
+### 给大模型的5个工具
+
+- list_files
+- search_code
+- read_file
+- apply_patch
+- run_command
+  有了这5个工具，大模型就能自主探索我们的项目。
+
+注意我们提供给大模型的这些工具，每次都得传给他，大模型跟RESTFul里面的stateless类似，都是无状态的，所以api调用的时候每次都得带上认证信息，一般我们会用JWT，或者自己做的token，然后服务端在通过这些认证信息去查询用户相关的信息。
+
+在大模型里面也类似，一方面我们需要把之前对话的信息（包括输入和输出）再次放到`messages`里面传给大模型，另一方面大模型那边也可以保存一些信息，比如对话摘要，长期记忆，用户偏好等等。
+
+### 核心代码
+
+注意下方的`assistant_payload`就是把这次会话的大模型说的话也放到`messages`里面，我们的上下文就是必须包含所有历史上的对话，还有`tool_calls`，都得放到`messages`里面，然后下次调用大模型的时候，带过去。
+
+```python
+def run_agent(client: OpenAI, config: AgentConfig, task: str) -> str:
+    messages: list[dict[str, Any]] = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT.format(workspace_root=str(config.workspace_root)),
+        },
+        {"role": "user", "content": task},
+    ]
+
+    for iteration in range(1, config.max_iterations + 1):
+        response = client.chat.completions.create(
+            model=config.model,
+            messages=messages,
+            tools=TOOL_DEFINITIONS,
+        )
+        message = response.choices[0].message
+        assistant_payload: dict[str, Any] = {"role": "assistant"}
+
+        if message.content:
+            assistant_payload["content"] = message.content
+        if message.tool_calls:
+            assistant_payload["tool_calls"] = [
+                {
+                    "id": tool_call.id,
+                    "type": tool_call.type,
+                    "function": {
+                        "name": tool_call.function.name,
+                        "arguments": tool_call.function.arguments,
+                    },
+                }
+                for tool_call in message.tool_calls
+            ]
+
+        messages.append(assistant_payload)
+
+        if not message.tool_calls:
+            return message.content or "Task completed."
+
+        for tool_call in message.tool_calls:
+            tool_name = tool_call.function.name
+            tool_args = tool_call.function.arguments or "{}"
+            result = execute_tool(config.workspace_root, tool_name, tool_args)
+
+            print(f"[tool {iteration}] {tool_name}({tool_args})")
+            preview = result[:200] + ("..." if len(result) > 200 else "")
+            print(preview)
+
+            messages.append(
+                {
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": result,
+                }
+            )
+
+    return "Stopped: reached maximum iterations without a final answer."
+```
+
+### 试一试
+
+下面的结果是针对我这个[测试用例](https://github.com/sunkehappy/mini-coding-agent/tree/main/test-projects/easy/greeter-cli)的执行结果，通过我自己手动判断，完全OK的：
+
+![first round llm result](/static/images/2026-07-15-diy-a-mini-curser/first-round-llm-result.png)
+
+## 总结
+
+做完之后我才发现原来做一个coding-agent，他的核心这么简单，当然我也不能自大的就推论Cursor没什么特别之处。我们都知道做一个demo和做一个工业软件难度天差地别的。但开开眼界总是好的
+
+### TODO
+
+实现了最基础功能之后，我们就可以考虑如何评估这个项目，以及如何优化了：
+
+#### 建立一套固定评测集
+
+我们要准备更多的测试问题，然后回答以下问题，以确保我们的项目是可靠的：
+
+- 哪些任务能完成？
+- 成功率是多少？
+- 平均调用多少次模型？
+- 哪种任务最容易失败？
+- 修改是否正确，还是碰巧通过公开测试？
+- Prompt 改动后是提升还是退化？
+
+#### 自动评测
+
+上面的那些问题，如果每次改动后都手工统计，也挺费劲的，而且也不是长远之计。我们需要一个自动化的方式来评估我们的项目。
+
+这个跟写单元测试很类似，就是针对对应的测试用例，把预期结果写出来，然后让大模型去执行，最后对比预期结果和实际结果，给出评估。这个时候就不能完全只靠大模型来做评测了，因为大模型的评测不是可靠的，我们的测试结果还是期望尽量准确。
+
+#### 可复现性
+
+我们期望我们的Agent是可以复现的，也就是说，给定相同的输入，应该得到相同的输出。这样遇到我们的Agent解决不了的问题的时候，我们就可以通过复现来找到问题所在。然后再去优化我们的Agent。看到底是什么错误：
+
+- 搜索词选错了；
+- 读取文件范围不够；
+- 工具描述不清楚；
+- edit 工具不稳定；
+- 模型重复读取同一文件；
+- 测试错误输出太长；
+- Agent 提前宣布完成；
+- Agent 没运行测试；
+- 最大步骤不够。
+
+#### 其他优化方向
+
+因为我们是初级版本demo，所以可以优化的方向很多，这里就不完全一一展开了：
+
+- 优化工具
+- 加入安全约束
+- context管理
+
+等到一定程度之后，就可以考虑下面的方向（说实话目前这些我也不太懂，先记下来，后面慢慢学）：
+
+- 多 Agent；
+- Tree-sitter；
+- LSP；
+- 向量检索；
+- MCP；
