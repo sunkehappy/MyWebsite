@@ -1,7 +1,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
-	"name": "calvinhappy",
+	"name": "mywebsite",
 	"compatibility_date": "2026-07-23",
 	"compatibility_flags": [
 		"nodejs_compat",
@@ -16,7 +16,7 @@
 			// Self-reference service binding, the service name must match the worker name
 			// see https://opennext.js.org/cloudflare/caching
 			"binding": "WORKER_SELF_REFERENCE",
-			"service": "calvinhappy"
+			"service": "mywebsite"
 		}
 	],
 	"r2_buckets": [
@@ -27,10 +27,6 @@
 			// Create the bucket before deploying:
 			// npx wrangler r2 bucket create calvinhappy-opennext-cache
 			"bucket_name": "calvinhappy-opennext-cache"
-		},
-		{
-			"bucket_name": "calvinhappy-opennext-cache",
-			"binding": "calvinhappy_opennext_cache"
 		}
 	],
 	"images": {
