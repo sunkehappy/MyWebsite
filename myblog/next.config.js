@@ -102,3 +102,7 @@ module.exports = () => {
     },
   })
 }
+
+// Cloudflare OpenNext local bindings for `next dev`
+// see https://opennext.js.org/cloudflare/get-started
+require('@opennextjs/cloudflare').initOpenNextCloudflareForDev()
